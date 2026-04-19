@@ -526,8 +526,8 @@
                     clearInterval(trialInterval);
                     return;
                 }
-                let proBulan = parseInt(localStorage.getItem('cikguscan_pro_bulan_' + currentUser)) || 0;
-                if (proBulan > 0) {
+                let proCountdown = parseInt(localStorage.getItem('cikguscan_pro_countdown_' + currentUser)) || 0;
+                if (proCountdown > 0) {
                     clearInterval(trialInterval);
                     return;
                 }
@@ -592,14 +592,14 @@
                 document.getElementById('main-app-view').classList.remove('hidden');
                 document.getElementById('header-user-email').innerText = currentUser;
 
-                let proBulan = parseInt(localStorage.getItem('cikguscan_pro_bulan_' + currentUser)) || 0;
+                let proCountdown = parseInt(localStorage.getItem('cikguscan_pro_countdown_' + currentUser)) || 0;
                 let trialFinished = localStorage.getItem('cikguscan_trial_finished_' + currentUser) === 'true';
                 let trialStart = localStorage.getItem('cikguscan_trial_start_' + currentUser);
                 
                 let isTrialActive = false;
                 let secondsLeft = 0;
 
-                if (proBulan <= 0 && trialStart) {
+                if (proCountdown <= 0 && trialStart) {
                     let elapsed = Math.floor((Date.now() - parseInt(trialStart)) / 1000);
                     secondsLeft = 3600 - elapsed;
 
@@ -617,8 +617,8 @@
                 let btnKelas = document.getElementById('btn-pilih-kelas');
                 
                 if (statusEl) {
-                    if (proBulan > 0) {
-                        statusEl.innerText = `AKAUN PRO (${proBulan} HARI)`;
+                    if (proCountdown > 0) {
+                        statusEl.innerText = `AKAUN PRO (${proCountdown} HARI)`;
                         statusEl.classList.remove('text-apple-textMuted', 'text-orange-500');
                         statusEl.classList.add('text-apple-blue');
                         if (btnKelas) btnKelas.parentElement.classList.remove('hidden');
@@ -708,8 +708,8 @@
 
                 if (result.success) {
                     localStorage.setItem('cikguscan_current_user', email);
-                    if (result.proBulan !== undefined) {
-                        localStorage.setItem('cikguscan_pro_bulan_' + email, result.proBulan);
+                    if (result.proCountdown !== undefined) {
+                        localStorage.setItem('cikguscan_pro_countdown_' + email, result.proCountdown);
                     }
                     if (result.trialStart) {
                         localStorage.setItem('cikguscan_trial_start_' + email, result.trialStart);
@@ -1015,19 +1015,19 @@
         // FUNGSI TUKAR TAB DAN SUB-TAB
         // ==========================================
         function tukarTab(idTab) {
-            let proBulan = parseInt(localStorage.getItem('cikguscan_pro_bulan_' + currentUser)) || 0;
+            let proCountdown = parseInt(localStorage.getItem('cikguscan_pro_countdown_' + currentUser)) || 0;
             let trialFinished = localStorage.getItem('cikguscan_trial_finished_' + currentUser) === 'true';
             let trialStart = localStorage.getItem('cikguscan_trial_start_' + currentUser);
             
             let isTrialActive = false;
-            if (proBulan <= 0 && !trialFinished && trialStart) {
+            if (proCountdown <= 0 && !trialFinished && trialStart) {
                 let elapsed = Math.floor((Date.now() - parseInt(trialStart)) / 1000);
                 if (elapsed < 3600) isTrialActive = true;
             }
 
             // --- KUNCI BAHAGIAN ANALISIS UNTUK PENGGUNA BUKAN PRO & BUKAN TRIAL ---
             if (idTab === 'analisis') {
-                if (proBulan <= 0 && !isTrialActive) {
+                if (proCountdown <= 0 && !isTrialActive) {
                     paparAlert("Akses Terhad.", "Khas langganan Pro sahaja.", true);
                     return; // Hentikan fungsi tukar tab
                 }
@@ -1064,7 +1064,7 @@
                     banner.classList.add('hidden');
                 }
                 
-                if (proBulan > 0 || !trialFinished) {
+                if (proCountdown > 0 || !trialFinished) {
                     if (kelasSemasa === "Kelas Umum" || kelasSemasa.trim() === "") {
                         bukaModalKelas();
                     } else {
@@ -2282,12 +2282,12 @@
 
             // Simpan Rekod
             let peratus = (markah / JUMLAH_SOALAN) * 100;
-            let proBulan = parseInt(localStorage.getItem('cikguscan_pro_bulan_' + currentUser)) || 0;
+            let proCountdown = parseInt(localStorage.getItem('cikguscan_pro_countdown_' + currentUser)) || 0;
             let trialFinished = localStorage.getItem('cikguscan_trial_finished_' + currentUser) === 'true';
             let trialStart = localStorage.getItem('cikguscan_trial_start_' + currentUser);
             
             // Check if we need to start the trial now
-            if (proBulan <= 0 && !trialFinished && !trialStart) {
+            if (proCountdown <= 0 && !trialFinished && !trialStart) {
                 trialStart = Date.now().toString();
                 localStorage.setItem('cikguscan_trial_start_' + currentUser, trialStart);
                 
@@ -2317,12 +2317,12 @@
             }
 
             let isTrialActive = false;
-            if (proBulan <= 0 && !trialFinished && trialStart) {
+            if (proCountdown <= 0 && !trialFinished && trialStart) {
                 let elapsed = Math.floor((Date.now() - parseInt(trialStart)) / 1000);
                 if (elapsed < 3600) isTrialActive = true;
             }
             
-            if (proBulan > 0 || isTrialActive) {
+            if (proCountdown > 0 || isTrialActive) {
                 let rekodBaharu = {
                     id: idUntukGanti ? idUntukGanti : Date.now(),
                     markah: markah,
@@ -2359,12 +2359,12 @@
         function paparKeputusan(markah, butiran) {
             tukarTab('keputusan'); 
             let peratus = (markah / JUMLAH_SOALAN) * 100;
-            let proBulan = parseInt(localStorage.getItem('cikguscan_pro_bulan_' + currentUser)) || 0;
+            let proCountdown = parseInt(localStorage.getItem('cikguscan_pro_countdown_' + currentUser)) || 0;
             let trialFinished = localStorage.getItem('cikguscan_trial_finished_' + currentUser) === 'true';
             let trialStart = localStorage.getItem('cikguscan_trial_start_' + currentUser);
             
             let isTrialActive = false;
-            if (proBulan <= 0 && !trialFinished && trialStart) {
+            if (proCountdown <= 0 && !trialFinished && trialStart) {
                 let elapsed = Math.floor((Date.now() - parseInt(trialStart)) / 1000);
                 if (elapsed < 3600) isTrialActive = true;
             }
@@ -2377,7 +2377,7 @@
             let separatorKelas = document.getElementById('skor-separator');
             let btnPadamSemasa = document.getElementById('btn-padam-semasa');
             
-            if (proBulan > 0 || isTrialActive) {
+            if (proCountdown > 0 || isTrialActive) {
                 if(labelKelas) {
                     labelKelas.innerText = kelasSemasa;
                     labelKelas.classList.remove('hidden');
