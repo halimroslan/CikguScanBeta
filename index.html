@@ -155,7 +155,7 @@
 </head>
 <body class="bg-apple-bg text-apple-text font-sans selection:bg-apple-blue selection:text-white pb-20">
 
-    <div id="auth-view" class="h-[100dvh] w-full flex items-center justify-center p-4 relative hidden overflow-hidden bg-apple-bg">
+    <div id="auth-view" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden bg-apple-bg overscroll-none">
         <div class="bg-white w-full max-w-md rounded-[32px] p-8 sm:p-10 shadow-apple border border-apple-border/40 relative z-10 flex flex-col gpu-accelerate">
             <div class="flex items-center justify-center gap-3 mb-8">
                 <div class="w-14 h-14 bg-apple-blue/10 rounded-2xl flex items-center justify-center">
@@ -550,6 +550,7 @@
                     document.getElementById('auth-view').classList.remove('hidden');
                     document.getElementById('auth-view').classList.add('flex');
                     document.getElementById('main-app-view').classList.add('hidden');
+                    document.body.classList.add('overflow-hidden');
                     document.getElementById('auth-password').value = '';
                     paparAlert("Tempoh Cubaan Tamat ⏱️", "Masa 60 minit percubaan Pro telah tamat. Anda dilog keluar secara automatik. Sila log masuk semula untuk meneruskan dengan akaun Percuma.", true);
                 } else {
@@ -590,6 +591,7 @@
                 document.getElementById('auth-view').classList.add('hidden');
                 document.getElementById('auth-view').classList.remove('flex');
                 document.getElementById('main-app-view').classList.remove('hidden');
+                document.body.classList.remove('overflow-hidden');
                 document.getElementById('header-user-email').innerText = currentUser;
 
                 let proCountdown = parseInt(localStorage.getItem('cikguscan_pro_countdown_' + currentUser)) || 0;
@@ -643,6 +645,7 @@
                 document.getElementById('auth-view').classList.remove('hidden');
                 document.getElementById('auth-view').classList.add('flex');
                 document.getElementById('main-app-view').classList.add('hidden');
+                document.body.classList.add('overflow-hidden');
                 document.getElementById('auth-email').value = '';
                 document.getElementById('auth-password').value = '';
             }
@@ -1243,7 +1246,7 @@
                 <div class="bg-white rounded-xl shadow-sm border border-[#e5e5ea] overflow-hidden text-sm mb-2">
                     <table class="w-full text-left border-collapse">
                         <tr class="border-b border-gray-100"><td class="p-3 font-semibold text-gray-600 w-2/3 border-r border-gray-100">Jumlah Kertas</td><td class="p-3 text-right font-bold text-apple-text">${records.length}</td></tr>
-                        <tr class="border-b border-gray-100"><td class="p-3 text-right font-bold text-apple-text">${JUMLAH_SOALAN}</td></tr>
+                        <tr class="border-b border-gray-100"><td class="p-3 font-semibold text-gray-600 border-r border-gray-100">Jumlah Soalan</td><td class="p-3 text-right font-bold text-apple-text">${JUMLAH_SOALAN}</td></tr>
                         <tr><td class="p-3 font-semibold text-gray-600 border-r border-gray-100">Markah Penuh</td><td class="p-3 text-right font-bold text-apple-text">${JUMLAH_SOALAN}</td></tr>
                     </table>
                 </div>
