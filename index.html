@@ -2214,7 +2214,7 @@
 
                 let sortedBright = [...tahapKegelapan].sort((a,b) => a - b);
                 let avgPaper = (sortedBright[1] + sortedBright[2] + sortedBright[3]) / 3;
-                let thresholdContrast = 15, pilihanPelajar = null;
+                let thresholdContrast = 10, pilihanPelajar = null;
 
                 if ((avgPaper - sortedBright[0]) > thresholdContrast) {
                     let indeksJawapan = tahapKegelapan.indexOf(sortedBright[0]);
