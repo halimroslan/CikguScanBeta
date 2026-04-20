@@ -2163,7 +2163,7 @@
             let paperBrightness = highestAvg || 200;
             if (paperBrightness < 90) return false;
 
-            let darkThreshold = paperBrightness * 0.75, requiredDarkPixelsRatio = 0.55; 
+            let darkThreshold = paperBrightness * 0.75, requiredDarkPixelsRatio = 0.50; 
             let titikUjian = [
                 {x: geo.boxX - half, y: geo.boxY - half}, {x: geo.boxX + geo.boxW - half, y: geo.boxY - half}, 
                 {x: geo.boxX - half, y: geo.boxY + geo.boxH/2 - half}, {x: geo.boxX + geo.boxW - half, y: geo.boxY + geo.boxH/2 - half}, 
@@ -2225,7 +2225,7 @@
             let markah = 0;
             let butiran = [];
             const r = geo.rowHeight * 0.40;
-            const scanR = r * 0.70; 
+            const scanR = r * 0.80; 
 
             for (let i = 0; i < JUMLAH_SOALAN; i++) {
                 let { cy, posX } = geo.getPilihanGeometri(i);
