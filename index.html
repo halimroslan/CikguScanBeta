@@ -2163,7 +2163,7 @@
             let paperBrightness = highestAvg || 200;
             if (paperBrightness < 90) return false;
 
-            let darkThreshold = paperBrightness * 0.75, requiredDarkPixelsRatio = 0.35; 
+            let darkThreshold = paperBrightness * 0.75, requiredDarkPixelsRatio = 0.37; 
             let titikUjian = [
                 {x: geo.boxX - half, y: geo.boxY - half}, {x: geo.boxX + geo.boxW - half, y: geo.boxY - half}, 
                 {x: geo.boxX - half, y: geo.boxY + geo.boxH/2 - half}, {x: geo.boxX + geo.boxW - half, y: geo.boxY + geo.boxH/2 - half}, 
