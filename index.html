@@ -2002,6 +2002,16 @@
 
             if (streamKamera) {
                 video.play().catch(e => console.log(e));
+                
+                // Extra check in case torch was turned off by OS
+                try {
+                    const track = streamKamera.getVideoTracks()[0];
+                    if (typeof track.getCapabilities === 'function') {
+                        const capabilities = track.getCapabilities();
+                        if (capabilities.torch) await track.applyConstraints({ advanced: [{ torch: true }] });
+                    }
+                } catch(e) {}
+                
                 renderFrameKamera();
                 return;
             }
@@ -2012,6 +2022,24 @@
                 });
                 video.srcObject = streamKamera;
                 await video.play();
+                
+                // --- OPTIMISATION: AUTOMATICALLY ENABLE FLASH/TORCH ---
+                // We use a brief timeout to make sure the hardware has fully initialised before firing the constraint
+                setTimeout(async () => {
+                    try {
+                        const track = streamKamera.getVideoTracks()[0];
+                        // Safely check if the device supports the torch capability
+                        if (typeof track.getCapabilities === 'function') {
+                            const capabilities = track.getCapabilities();
+                            if (!capabilities.torch) return; // Exit if torch isn't supported on this device
+                        }
+                        // Apply the flash constraint
+                        await track.applyConstraints({ advanced: [{ torch: true }] });
+                    } catch (e) {
+                        console.warn("Could not activate camera flash:", e);
+                    }
+                }, 600); 
+
                 renderFrameKamera();
             } catch (err) {
                 paparAlert("Kamera Gagal", "Kamera tidak dapat diakses. Sila benarkan tetapan privasi pelayar untuk mengakses kamera.");
